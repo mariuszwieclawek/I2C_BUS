@@ -2,18 +2,21 @@
 #include "RTC_PCF8563.h"
 
 /* Print data to the COM */
-void RTC_print_COM(struct tm* data_time){
+void RTC_print_COM(RTC_data* data_time){
 	char buff[100];
-	sprintf(buff, "%02d:%02d:%02d	%02d.%02d.%02dr    WEEKDAY:%d\n\r", data_time->tm_hour, data_time->tm_min, 
-	data_time->tm_sec, data_time->tm_mday, data_time->tm_mon, data_time->tm_year, data_time->tm_wday);
+	sprintf(buff, "%02d:%02d:%02d	%02d.%02d.%02dr    WEEKDAY:%d\n\r", data_time->hour, data_time->min, 
+	data_time->sec, data_time->day, data_time->month, data_time->year, data_time->weekday);
 	USART_PutS(buff);
 }
 
 /* Print data to the LCD display */
-void RTC_print_LCD(struct tm* data_time){
+void RTC_print_LCD(RTC_data* data_time){
 	char buff[25];
-	sprintf(buff, "%02d:%02d:%02d", data_time->tm_hour, data_time->tm_min, data_time->tm_sec);
+	sprintf(buff, "%02d:%02d:%02d", data_time->hour, data_time->min, data_time->sec);
 	LCD1602_goto_xy(0,0);
+	LCD1602_send_string(buff);
+	sprintf(buff, "%02d.%02d.%02d", data_time->day, data_time->month, data_time->year);
+	LCD1602_goto_xy(0,1);
 	LCD1602_send_string(buff);
 
 }
@@ -67,7 +70,7 @@ uint8_t RTC_get_specific_value(uint8_t register_address){
 	return bcd_to_decimal(value); //PCF8563 sends data in BCD code format so we need to convert it (datasheet)		
 }
 
-void RTC_get_time(struct tm* data){
+void RTC_get_time(RTC_data* data){
 	uint8_t sec, min, hour, day, weekday, month, year;
 	
 	/* I2C PROCEDURE */
@@ -106,13 +109,13 @@ void RTC_get_time(struct tm* data){
 	year = bcd_to_decimal(year);
 	
 	/* WRITE TO DATA STRUCTURE */
-	data->tm_sec = sec;
-	data->tm_min = min;
-	data->tm_hour = hour;
-	data->tm_mday = day;
-	data->tm_wday = weekday;
-	data->tm_mon = month;
-	data->tm_year = year;
+	data->sec = sec;
+	data->min = min;
+	data->hour = hour;
+	data->day = day;
+	data->weekday = weekday;
+	data->month = month;
+	data->year = year;
 }
 
 void RTC_set_time(uint8_t hour, uint8_t min, uint8_t sec, uint8_t day, uint8_t month, uint8_t year, uint8_t weekday){

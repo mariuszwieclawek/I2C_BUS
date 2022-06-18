@@ -67,25 +67,21 @@ bool TWI_Write_data(uint8_t data) {
 	}
 }
 
-void TWI_Write_ACK(uint8_t data) {
+void TWI_Write_ACK(uint8_t data){
 	TWDR0 = data;
 	TWCR0 = ((1 << TWINT) | (1 << TWEN) | (1 << TWEA));
 	while(!(TWCR0 & (1<<TWINT)));
 }
 
-void TWI_Write_NACK(uint8_t data) {
+void TWI_Write_NACK(uint8_t data){
 	TWDR0 = data;
 	TWCR0 = (1<<TWINT) | (1<<TWEN);
 	while(!(TWCR0 & (1<<TWINT)));
 }
 
-uint8_t TWI_Read_ACK(void)
-{
-	//USART_PutS("read11\n\r");
+uint8_t TWI_Read_ACK(void){
 	TWCR0 = ((1 << TWINT) | (1 << TWEN) | (1 << TWEA));
-	//USART_PutS("read12\n\r");
 	while (!(TWCR0 & (1<<TWINT)));
-	//USART_PutS("read13\n\r");
 	return TWDR0;
 }
 
@@ -97,20 +93,18 @@ uint8_t TWI_Read_NACK(void)
 }
 
 void TWI_Ping_Slave(void){
+	char buff[50];
 	for (int slave_address = 0x00 ; slave_address <= 0xFF; slave_address++){
 		TWI_Start();
-		if (TWI_Write_SLA_W(slave_address) == true)
-		{
-			USART_PutS("\r\n\tSlave address: ");
-			USART_PutInt(slave_address,16);
-			USART_PutS("\n\r\n\r");
+		if (TWI_Write_SLA_W(slave_address) == true){
+			sprintf(buff, "\r\n\tSlave address: 0x%02x\n\r\n\r", slave_address);
+			USART_PutS_without_ringbuf(buff);
 			TWI_Stop();
 			continue;
 		}
 		else{
-			USART_PutS("Cant find: ");
-			USART_PutInt(slave_address,16);
-			USART_PutS("\n\r");
+			sprintf(buff, "Cant find: 0x%02x\n\r", slave_address);
+			USART_PutS_without_ringbuf(buff);
 		}
 		TWI_Stop();
 	}
@@ -124,12 +118,3 @@ void TWI_WriteByAddr(uint8_t addr, uint8_t data) {
 	TWI_Stop();
 }
 
-/*
-void TWI_write_buf(uint8_t SLA, uint8_t data, uint8_t len, uint8_t *buf) {
-	TWI_Start();
-	TWI_Write(SLA);
-	TWI_Write(data);
-	while(len--) TWI_Write(*buf++);
-	TWI_Stop();
-}
-*/

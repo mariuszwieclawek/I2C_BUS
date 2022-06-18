@@ -18,6 +18,12 @@ void USART_PutC( char data );
 // Wysylamy string, ciag znakow
 void USART_PutS( char * s);
 
+// Wysylamy znak i nie korzystamy z buforowania cyklicznego
+void USART_PutC_without_ringbuf(char data);
+
+// Wysylamy string i nie korzystamy z buforowania cyklicznego
+void USART_PutS_without_ringbuf(char * s);
+
 // Wysylamy liczbe int, radix to w jakim formacie wyswietlamy liczbe 2-dwojkowy 10-dziesiatkowy 16-szesntastkowy
 void USART_PutInt(uint16_t number, uint8_t radix);
 

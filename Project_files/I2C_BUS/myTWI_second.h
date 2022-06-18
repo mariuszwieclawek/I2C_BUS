@@ -8,44 +8,39 @@
 
 #include "usart.h"
 
-#define SDA PORTC4
-#define SCL PORTC5
-
-#define ACK 1
-#define NOACK 0
 
 /* inicjalizacja portow TWI */
-void TWI_Init(void);
+void TWI2_Init(void);
 
 /* start modulu twi */
-bool TWI_Start(void);
+bool TWI2_Start(void);
 
 /* stop modulu twi */
-void TWI_Stop(void);
+void TWI2_Stop(void);
 
 /* wywolanie slave'a w trybie do zapisu */
-bool TWI_Write_SLA_W(uint8_t slave_address);
+bool TWI2_Write_SLA_W(uint8_t slave_address);
 
 /* wywolanie slave'a w trybie do odczytu */
-bool TWI_Write_SLA_R(uint8_t slave_address);
+bool TWI2_Write_SLA_R(uint8_t slave_address);
 
 /* wyslanie pojedynczego bajtu */
-bool TWI_Write_data(uint8_t data);
+bool TWI2_Write_data(uint8_t data);
 
-void TWI_Write_ACK(uint8_t data);
+void TWI2_Write_ACK(uint8_t data);
 
-void TWI_Write_NACK(uint8_t data);
+void TWI2_Write_NACK(uint8_t data);
 
 /* odebranie pojedycznego bajtu z potwierdzeniem */
-uint8_t TWI_Read_ACK(void);
+uint8_t TWI2_Read_ACK(void);
 
 /* odebranie pojedycznego bajtu bez potwierdzenia */
-uint8_t TWI_Read_NACK(void);
+uint8_t TWI2_Read_NACK(void);
 
 /* wyslanie pojedynczego bajtu na dany adres */
-void TWI_WriteByAddr(uint8_t addr, uint8_t data);
+void TWI2_WriteByAddr(uint8_t addr, uint8_t data);
 
 /* szukanie adresu SLAVE'a*/
-void TWI_Ping_Slave(void);
+void TWI2_Ping_Slave(void);
 
 #endif /* MYTWI_H_ */

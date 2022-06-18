@@ -15,6 +15,16 @@
 #include "myTWI.h"
 #include "LCD1602.h"
 
+typedef struct{
+	char sec;
+	char min;
+	char hour;
+	char day;
+	char weekday;
+	char month;
+	char year;
+}RTC_data;
+
 /* Device/Slave address */
 #define PCF8563_Address 0xA2
 
@@ -52,10 +62,10 @@
 #define YEARS_MASK		0xFF // YEARS[7:0] from datasheet
 
 /* Print data to the COM */
-void RTC_print_COM(struct tm* data_time);
+void RTC_print_COM(RTC_data* data_time);
 
 /* Print data to the LCD display */
-void RTC_print_LCD(struct tm* data_time);
+void RTC_print_LCD(RTC_data* data_time);
 
 /* For decoding and encoding data */
 uint8_t bcd_to_decimal(uint8_t x);
@@ -65,7 +75,7 @@ uint8_t decimal_to_bcd(uint8_t x);
 uint8_t RTC_get_specific_value(uint8_t register_address);
 
 /* Read values from PCF8563 and save it to the data structure */
-void RTC_get_time(struct tm* data);
+void RTC_get_time(RTC_data* data);
 
 /* Write values to PCF8563 */
 void RTC_set_time(uint8_t sec, uint8_t min, uint8_t hour, uint8_t day, uint8_t weekday, uint8_t month, uint8_t year);
