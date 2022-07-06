@@ -2277,7 +2277,7 @@ void USART_Init(){ // Inicjalizacja UART
 }
  
  
-void USART_PutC(char data){ // Wysylamy pojedynczy znak
+void USART_PutC(char data){ // send a single character
 	cli(); // disable interrupt
      f32:	f8 94       	cli
 	if(RingBuffer_PutChar(&USART_RingBuffer_Tx,data)){ // send char to ring buffer tx
