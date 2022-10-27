@@ -9,9 +9,13 @@ void DHT_Request(){				/* Microcontroller send start pulse/request */
 
 void DHT_Response(){				/* receive response from DHT11 */
 	DDRC &= ~(1<<DHT11_PIN);
+	USART_PutS("\nDHTresponseTEST1\n");
 	while(PINC & (1<<DHT11_PIN));
+	USART_PutS("\nDHTresponseTEST2\n");
 	while((PINC & (1<<DHT11_PIN))==0);
+	USART_PutS("\nDHTresponseTEST3\n");
 	while(PINC & (1<<DHT11_PIN));
+	USART_PutS("\nDHTresponseTEST4\n");
 }
 
 
@@ -33,7 +37,9 @@ uint8_t DHT_Receive_data(){			/* receive data, returns 8 bits */
 void DHT_Get_Data(DHT11_data* data){
 	_delay_ms(300);
 	DHT_Request();		/* send start pulse */
+	USART_PutS("\nDHTTEST\n");
 	DHT_Response();		/* receive response */
+	USART_PutS("\nDHTTEST\n");
 	data->I_Humidity=DHT_Receive_data();	/* store first eight bit in I_HUM */
 	data->D_Humidity=DHT_Receive_data();	/* store next eight bit in D_HUM */
 	data->I_Temperature=DHT_Receive_data();	/* store next eight bit in I_Temp */

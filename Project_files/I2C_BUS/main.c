@@ -52,10 +52,15 @@ int main(void){
 	while(1){
 		RTC_get_time(&data_time);
 		RTC_print_COM(&data_time);
+		USART_PutS("\nTEST\n");
 		RTC_print_LCD(&data_time);
+		USART_PutS("\nTEST1\n");
 		DHT_Get_Data(&data_weather);
+		USART_PutS("\nTEST\n");
 		DHT_print_COM(&data_weather);
+		USART_PutS("\nTEST\n");
 		DHT_print_LCD(&data_weather);
+		USART_PutS("\nTEST\n");
 
 
 		/* Kiedy zosta³y juz zapisane jakieœ wartoœci do pamiêci EEPROM (eeprom_ready = true) */
